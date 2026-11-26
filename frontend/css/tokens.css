@@ -1,0 +1,80 @@
+:root {
+  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Georgia", "Merriweather", "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Cool Minimal AI Canvas + White Shell (Asklepios-inspired) */
+  --bg-canvas: #d9e2ec;
+  --bg-shell: #ffffff;
+  --bg-surface: #f7f9fc;
+  --bg-subtle: #edf2f7;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #111827;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --border-subtle: #e4ebf3;
+  --border-strong: #cbd5e1;
+
+  --accent-primary: #1677ff;
+  --accent-primary-hover: #0958d9;
+  --accent-primary-soft: #e8f3ff;
+
+  --accent-secondary: #0d9488;
+  --accent-secondary-hover: #0f766e;
+  --accent-secondary-soft: #ecfdf5;
+
+  --status-ok: #15803d;
+  --status-ok-bg: #dcfce7;
+  --status-warn: #b45309;
+  --status-warn-bg: #fef3c7;
+  --status-err: #b91c1c;
+  --status-err-bg: #fef2f2;
+
+  --shadow-shell: 0 24px 60px rgba(15, 23, 42, 0.12);
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 14px 36px rgba(15, 23, 42, 0.15);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-shell: 24px;
+  --radius-full: 9999px;
+}
+
+[data-theme="dark"] {
+  --bg-canvas: #060a13;
+  --bg-shell: #0f172a;
+  --bg-surface: #151f33;
+  --bg-subtle: #1e293b;
+  --bg-elevated: #192338;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --border-subtle: #243045;
+  --border-strong: #334155;
+
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #60a5fa;
+  --accent-primary-soft: rgba(59, 130, 246, 0.16);
+
+  --accent-secondary: #14b8a6;
+  --accent-secondary-hover: #2dd4bf;
+  --accent-secondary-soft: rgba(20, 184, 166, 0.16);
+
+  --status-ok: #4ade80;
+  --status-ok-bg: rgba(34, 197, 94, 0.16);
+  --status-warn: #fbbf24;
+  --status-warn-bg: rgba(245, 158, 11, 0.16);
+  --status-err: #fca5a5;
+  --status-err-bg: rgba(239, 68, 68, 0.14);
+
+  --shadow-shell: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.55);
+}

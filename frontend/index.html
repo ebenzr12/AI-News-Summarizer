@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>warta.ai — Bilingual News AI Summarizer</title>
+  <link rel="stylesheet" href="/static/css/tokens.css?v=2" />
+  <link rel="stylesheet" href="/static/css/layout.css?v=2" />
+  <link rel="stylesheet" href="/static/css/components.css?v=2" />
+</head>
+<body>
+  <div class="page-frame">
+    <div class="app-shell">
+      <!-- Top Navigation Bar -->
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" fill="currentColor" />
+            </svg>
+          </div>
+          <span class="brand-title">warta.ai</span>
+        </div>
+
+        <nav class="header-actions" aria-label="Workspace controls">
+          <div id="health-pill" class="status-pill status-pill--loading" title="System status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="health-label">Checking...</span>
+          </div>
+
+          <button
+            id="history-toggle-btn"
+            type="button"
+            class="btn btn-ghost btn-sm"
+            aria-expanded="false"
+            aria-controls="history-drawer"
+          >
+            <span data-i18n="historyBtn">History</span>
+            <span id="history-count" class="badge-count">0</span>
+          </button>
+
+          <div class="segmented segmented--sm" role="group" aria-label="Interface language">
+            <button type="button" class="segmented-btn is-active" data-ui-lang="en">EN</button>
+            <button type="button" class="segmented-btn" data-ui-lang="id">ID</button>
+          </div>
+
+          <button
+            id="theme-toggle-btn"
+            type="button"
+            class="btn btn-ghost btn-sm"
+            aria-label="Toggle color theme"
+          >
+            <span id="theme-icon">Dark</span>
+          </button>
+        </nav>
+      </header>
+
+      <!-- Asklepios-inspired Minimalist Hero -->
+      <section class="hero-section" aria-labelledby="hero-heading">
+        <div class="hero-copy">
+          <h1 id="hero-heading" class="hero-title" data-i18n="heroTitle">
+            Bilingual News<br />AI Summarizer
+          </h1>
+          <p class="hero-subtitle" data-i18n="heroSubtitle">
+            warta.ai delivers fast, accurate summarization for Indonesian and English news articles with decoupled bilingual translation.
+          </p>
+          <div class="hero-cta-row">
+            <button id="hero-sample-btn" type="button" class="split-cta">
+              <span class="split-cta-text" data-i18n="trySampleBtn">Try Sample</span>
+              <span class="split-cta-icon" aria-hidden="true">+</span>
+            </button>
+            <a href="#studio-workspace" class="btn btn-ghost btn-sm" data-i18n="jumpStudioBtn">
+              Open Studio &darr;
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="glass-stack">
+            <div class="glass-slab glass-slab--1"></div>
+            <div class="glass-slab glass-slab--2"></div>
+            <div class="glass-slab glass-slab--3"></div>
+            <div class="glass-slab glass-slab--4"></div>
+            <div class="glass-slab glass-slab--5"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Studio Workspace -->
+      <main id="studio-workspace" class="main-workspace">
+        <!-- Left Column: Article Input & Controls -->
+        <section class="panel input-panel" aria-labelledby="input-heading">
+          <div class="panel-header">
+            <div>
+              <h2 id="input-heading" class="panel-title" data-i18n="inputHeading">1. News Article Input</h2>
+              <p class="panel-desc" data-i18n="inputDesc">
+                Paste an Indonesian or English news article, load a sample, or upload a .txt/.md file.
+              </p>
+            </div>
+            <div class="input-toolbar">
+              <select id="sample-select" class="select-input select-input--sample" aria-label="Load sample news article">
+                <option value="" data-i18n="samplePlaceholder">Load sample article...</option>
+              </select>
+              <label class="btn btn-secondary btn-sm file-upload-btn" for="file-input">
+                <span data-i18n="uploadBtn">Upload .txt</span>
+                <input id="file-input" type="file" accept=".txt,.md,text/plain,text/markdown" hidden />
+              </label>
+            </div>
+          </div>
+
+          <div id="drop-zone" class="editor-wrapper">
+            <textarea
+              id="article-input"
+              class="article-textarea"
+              rows="11"
+              placeholder="Paste or type a news article in Bahasa Indonesia or English (minimum 10 words)..."
+              aria-label="News article text input"
+            ></textarea>
+
+            <div class="editor-footer">
+              <div class="live-meta">
+                <span id="detected-lang-pill" class="lang-pill lang-pill--idle">
+                  Waiting for text...
+                </span>
+                <span id="client-stats" class="stats-text">0 words · 0 chars</span>
+              </div>
+              <button id="clear-btn" type="button" class="btn btn-ghost btn-xs" data-i18n="clearBtn">
+                Clear
+              </button>
+            </div>
+          </div>
+
+          <!-- Controls: 2-col row + dedicated full-width segmented row to prevent text overflow -->
+          <div class="controls-stack">
+            <div class="controls-row-2">
+              <div class="control-group">
+                <label for="source-lang-select" class="control-label" data-i18n="articleLangLabel">
+                  Article Language
+                </label>
+                <select id="source-lang-select" class="select-input">
+                  <option value="auto" data-i18n="langAuto">Auto-detect (ID / EN)</option>
+                  <option value="id">Bahasa Indonesia (ID)</option>
+                  <option value="en">English (EN)</option>
+                </select>
+              </div>
+
+              <div class="control-group">
+                <label for="engine-select" class="control-label" data-i18n="engineLabel">AI Engine</label>
+                <select id="engine-select" class="select-input">
+                  <option value="auto" data-i18n="engineAuto">Auto (Best Available)</option>
+                  <option value="extractive" data-i18n="engineExtractive">Extractive (Fast Local)</option>
+                  <option value="abstractive" data-i18n="engineAbstractive">Abstractive (Fine-tuned mT5)</option>
+                  <option value="llm" data-i18n="engineLlm">Cloud LLM API</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" data-i18n="lengthLabel">Summary Length</label>
+              <div class="segmented segmented--full" role="group" aria-label="Summary length">
+                <button type="button" class="segmented-btn" data-length="concise" data-i18n="lenConcise">
+                  Concise
+                </button>
+                <button type="button" class="segmented-btn is-active" data-length="balanced" data-i18n="lenBalanced">
+                  Balanced
+                </button>
+                <button type="button" class="segmented-btn" data-length="detailed" data-i18n="lenDetailed">
+                  Detailed
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="input-error" class="alert alert-error" role="alert" hidden>
+            <div class="alert-content">
+              <strong id="input-error-title">Error</strong>
+              <p id="input-error-msg"></p>
+            </div>
+          </div>
+
+          <div class="primary-action-row">
+            <button id="summarize-btn" type="button" class="btn btn-primary btn-lg">
+              <span class="btn-spinner" aria-hidden="true" hidden></span>
+              <span id="summarize-btn-label" data-i18n="summarizeBtn">Generate Summary</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Right Column: Summary & Decoupled Translation -->
+        <section class="panel output-panel" aria-labelledby="output-heading" aria-live="polite">
+          <div class="panel-header">
+            <div>
+              <h2 id="output-heading" class="panel-title" data-i18n="outputHeading">2. Summary &amp; Translation</h2>
+              <p class="panel-desc" data-i18n="outputDesc">
+                Summaries preserve the original article language. Translation runs as an independent step.
+              </p>
+            </div>
+            <div class="output-actions">
+              <button id="copy-summary-btn" type="button" class="btn btn-secondary btn-sm" disabled data-i18n="copyBtn">
+                Copy
+              </button>
+              <button id="export-md-btn" type="button" class="btn btn-secondary btn-sm" disabled data-i18n="exportBtn">
+                Export .md
+              </button>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div id="output-empty" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L14.6 9.4L22 12L14.6 14.6L12 22L9.4 14.6L2 12L9.4 9.4L12 2Z" fill="currentColor" />
+              </svg>
+            </div>
+            <h3 data-i18n="emptyTitle">Ready to summarize news</h3>
+            <p data-i18n="emptyBody">
+              Enter an Indonesian or English article on the left and click Generate Summary to view concise key points, compression metrics, and bilingual translation.
+            </p>
+          </div>
+
+          <!-- Loading Skeleton -->
+          <div id="output-skeleton" class="skeleton-wrap" hidden>
+            <div class="skeleton-metrics">
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+              <div class="skeleton-box"></div>
+            </div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line skeleton-line--short"></div>
+          </div>
+
+          <!-- Summary Result -->
+          <div id="summary-card" class="result-section" hidden>
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <span class="metric-label" data-i18n="metricLang">Language</span>
+                <span id="metric-lang" class="metric-value">—</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label" data-i18n="metricWords">Words</span>
+                <span id="metric-words" class="metric-value">—</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label" data-i18n="metricCompression">Compression</span>
+                <span id="metric-compression" class="metric-value">—</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label" data-i18n="metricEngine">Engine / Time</span>
+                <span id="metric-engine" class="metric-value">—</span>
+              </div>
+            </div>
+
+            <article class="summary-box">
+              <div class="summary-box-header">
+                <span id="summary-lang-badge" class="lang-pill">ID</span>
+                <span id="summary-confidence" class="confidence-text"></span>
+              </div>
+              <p id="summary-text" class="summary-text"></p>
+            </article>
+
+            <!-- Decoupled Translation Section -->
+            <div class="translation-section">
+              <div class="translation-header">
+                <div>
+                  <h3 class="translation-title" data-i18n="translateHeading">3. Translate Summary</h3>
+                  <p class="translation-desc" data-i18n="translateDesc">
+                    Decoupled Indonesian &harr; English translation preserving original summary facts.
+                  </p>
+                </div>
+                <div class="translation-controls">
+                  <select id="target-lang-select" class="select-input select-input--sm" aria-label="Target translation language">
+                    <option value="en">To English (EN)</option>
+                    <option value="id">To Bahasa Indonesia (ID)</option>
+                  </select>
+                  <button id="translate-btn" type="button" class="btn btn-accent btn-sm">
+                    <span class="btn-spinner" aria-hidden="true" hidden></span>
+                    <span id="translate-btn-label" data-i18n="translateBtn">Translate</span>
+                  </button>
+                </div>
+              </div>
+
+              <div id="translation-error" class="alert alert-error" role="alert" hidden>
+                <div class="alert-content">
+                  <strong data-i18n="transErrTitle">Translation unavailable</strong>
+                  <p id="translation-error-msg"></p>
+                </div>
+                <button id="retry-translate-btn" type="button" class="btn btn-secondary btn-xs" data-i18n="retryBtn">
+                  Retry
+                </button>
+              </div>
+
+              <div id="translation-box" class="translation-box" hidden>
+                <div class="summary-box-header">
+                  <span id="translation-lang-badge" class="lang-pill lang-pill--accent">EN</span>
+                  <div class="translation-meta-right">
+                    <span id="translation-provider" class="confidence-text"></span>
+                    <button id="copy-translation-btn" type="button" class="btn btn-ghost btn-xs" data-i18n="copyBtn">
+                      Copy
+                    </button>
+                  </div>
+                </div>
+                <p id="translation-text" class="summary-text"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- History Slide-over Drawer -->
+  <aside id="history-drawer" class="history-drawer" aria-label="Recent summaries" hidden>
+    <div class="history-header">
+      <h3 data-i18n="historyTitle">Recent Summaries</h3>
+      <div class="history-header-actions">
+        <button id="clear-history-btn" type="button" class="btn btn-ghost btn-xs" data-i18n="clearAllBtn">
+          Clear All
+        </button>
+        <button id="close-history-btn" type="button" class="btn btn-ghost btn-xs" aria-label="Close history">
+          &times;
+        </button>
+      </div>
+    </div>
+    <div id="history-list" class="history-list"></div>
+  </aside>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="/static/js/app.js?v=2"></script>
+</body>
+</html>
